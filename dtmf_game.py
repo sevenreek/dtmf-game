@@ -179,6 +179,13 @@ class Snake_Game_Controller:
         global width, rows, s, snack
         width = 500
         rows = 20
+
+        import ctypes
+        user32 = ctypes.windll.user32
+        screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
+
+        import os
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((screensize[0]/2- width/2, screensize[1]/2-width/2))
         win = pygame.display.set_mode((width, width))
         s = snake((255,0,0), (10,10))
         snack = cube(randomSnack(rows, s), color=(0,255,0))
