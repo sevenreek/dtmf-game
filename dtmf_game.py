@@ -158,7 +158,7 @@ def randomSnack(rows, item):
 
     return (x,y)
 
-def messae_box(subject, content):
+def message_box(subject, content):
     root = tk.Tk()
     root.attributes("-topmost", True)
     root.withdraw()
@@ -190,7 +190,7 @@ def main():
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z: z.pos, s.body[x+1:])):
                 print('Score: ', len(s.body))
-                messae_box('You Lost!', 'Play again...')
+                message_box('You Lost!', "Score: {0}\nPlay again...".format( (len(s.body) - 1)))
                 s.reset((10,10))
                 break
 
