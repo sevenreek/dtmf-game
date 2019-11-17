@@ -196,7 +196,7 @@ def main():
 
         redrawWindow(win)
 
-    pass
+    pygame.quit()
 
 
 main()
