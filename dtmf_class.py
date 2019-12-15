@@ -30,9 +30,9 @@ class DTMFMicrophoneReader:
 		self._pauseDetected = False
 		self.detectionThreshold = detectionThreshold
 		self._audioStream = audioStream
-		self._Q0 = np.zeros((2,4))
-		self._Q1 = np.zeros((2,4))
-		self._Q2 = np.zeros((2,4))
+		self._S0 = np.zeros((2,4))
+		self._S1 = np.zeros((2,4))
+		self._S2 = np.zeros((2,4))
 		self._lastKey = None
 		self._audioStream.start_stream()
 		self._keepSampling = True
@@ -46,15 +46,15 @@ class DTMFMicrophoneReader:
 		#dfft = 10.*np.log10(abs(np.fft.rfft(audio_data)))
 
 		for sampleIndex in range(SAMPLE_COUNT):
-			self._Q0 = CONST_COEFF * self._Q1 - self._Q2 + audio_data[sampleIndex]
+			self._S0 = CONST_COEFF * self._S1 - self._S2 + audio_data[sampleIndex]
 			
-			self._Q2 = self._Q1
-			self._Q1 = self._Q0
-		magnitude_sq = (self._Q1 * self._Q1) + (self._Q2 * self._Q2) - (self._Q1 * self._Q2 * CONST_COEFF)
+			self._S2 = self._S1
+			self._S1 = self._S0
+		magnitude_sq = (self._S1 * self._S1) + (self._S2 * self._S2) - (self._S1 * self._S2 * CONST_COEFF)
 		mgn = np.sqrt(magnitude_sq) / SAMPLE_COUNT
-		self._Q0.fill(0)
-		self._Q1.fill(0)
-		self._Q2.fill(0)
+		self._S0.fill(0)
+		self._S1.fill(0)
+		self._S2.fill(0)
 		maxRow = np.argmax(mgn[0,:])
 		maxCol = np.argmax(mgn[1,:])
 		
